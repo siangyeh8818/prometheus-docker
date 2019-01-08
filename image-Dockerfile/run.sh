@@ -1,3 +1,5 @@
 #!/bin/bash
 
-./prometheus/prometheus --config.file="/prometheus/prometheus.yml" --storage.local.path=/opt/prometheus 
+chmod 777 -R /opt/prometheus
+
+/prometheus/prometheus --config.file="/prometheus/prometheus.yml" --storage.tsdb.path=/opt/prometheus 
