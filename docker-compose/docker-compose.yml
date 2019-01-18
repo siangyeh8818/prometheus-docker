@@ -1,0 +1,31 @@
+version: "3"
+services:
+  prom:
+    image: siangyeh8818/prometheus-docker:2.6-limit
+    volumes:
+     - ./monitor/prometheus.yml:/prometheus/prometheus.yml
+     - /etc/localtime:/etc/localtime
+     - /opt/prometheus-global:/opt/prometheus
+    privileged: true
+    ports:
+     - 9090:9090
+    depends_on:
+     - exporter
+     - nginx
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 512M
+    restart: always
+    networks:
+     - monitor
+networks:
+    monitor:
+        driver: bridge
+        driver_opts:
+            com.docker.network.enable_ipv6: "true"
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.19.1.0/24
